@@ -53,7 +53,7 @@
                             document.getElementById("post_auth").style.display = "none"; // Hide post-auth screen
                             document.getElementById("playlist_screen").style.display = "block"; // Show playlist select screen
 
-                            var response = request.response; // Full response
+                            var response = JSON.parse(request.response); // Full response
                             var selector = document.getElementById("playlist_select"); // Obtain playlist dropdown.
                             var playlists = response.items; // Obtain list of playlists from response
                             // For each playlist, create an option in the drop down.
