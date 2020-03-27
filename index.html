@@ -146,7 +146,7 @@
 
                 // Queue up first song
                 var request = new XMLHttpRequest();
-                request.open("GET", `https://api.spotify.com/v1/me/player/queue?uri=${songs[0].uri}`);
+                request.open("POST", `https://api.spotify.com/v1/me/player/queue?uri=${songs[0].uri}`);
                 request.onreadystatechange = waitAndQueueSong(songs, request, 0);
                 request.setRequestHeader("Authorization", `Bearer ${token}`);
                 request.send();
@@ -167,7 +167,7 @@
                             else { // Otherwise...
                                 // ...queue up next song
                                 var newRequest = new XMLHttpRequest();
-                                request.open("GET", `https://api.spotify.com/v1/me/player/queue?uri=${songs[index].uri}`);
+                                request.open("POST", `https://api.spotify.com/v1/me/player/queue?uri=${songs[index].uri}`);
                                 request.onreadystatechange = waitAndQueueSong(songs, request, index);
                                 request.setRequestHeader("Authorization", `Bearer ${token}`);
                                 request.send();
