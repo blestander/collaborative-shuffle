@@ -135,6 +135,17 @@
 
             function shuffleAndQueue3(songs) {
                 console.log(songs);
+                for (var i = songs.length - 1; i >= 1; i--) {
+                    var r = randomInt(i);
+                    var temp = songs[r];
+                    songs[r] = songs[i];
+                    songs[i] = temp;
+                }
+                console.log(songs);
+            }
+
+            function randomInt(max) {
+                return Math.floor(Math.random() * max);
             }
         </script>
     </head>
