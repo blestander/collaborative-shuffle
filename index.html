@@ -144,20 +144,36 @@
                     songs[i] = temp;
                 }
 
-                // Queue up songs on spotify
-                songs.forEach(function(song){
-                    var request = new XMLHttpRequest();
-                    request.open("POST", `https://api.spotify.com/v1/me/player/queue?uri=${song.uri}`);
-                    request.setRequestHeader("Authorization", `Bearer ${token}`);
-                    request.send();
-                });
-
-                // Output the songs
-                outputSongs(songs);
+                // Queue up first song
+                var request = new XMLHttpRequest();
+                request.open("GET", `https://api.spotify.com/v1/me/player/queue?uri=${songs[0].uri}`);
+                request.onreadystatechange = waitAndQueueSong(songs, request, 0);
+                request.setRequestHeader("Authorization", `Bearer ${token}`);
+                request.send();
             }
 
             function randomInt(max) {
                 return Math.floor(Math.random() * max);
+            }
+
+            function waitAndQueueSong(songs, request, index) {
+                return function() {
+                    if (request.readyState == XMLHttpRequest.DONE) // If response has been received
+                        if (request.status == 204) { // If response is successful
+                            index++;
+
+                            if (index == songs.length) // If done...
+                                outputSongs(songs); // ...output songs and be done
+                            else { // Otherwise...
+                                // ...queue up next song
+                                var newRequest = new XMLHttpRequest();
+                                request.open("GET", `https://api.spotify.com/v1/me/player/queue?uri=${songs[index].uri}`);
+                                request.onreadystatechange = waitAndQueueSong(songs, request, index);
+                                request.setRequestHeader("Authorization", `Bearer ${token}`);
+                                request.send();
+                            }
+                        }
+                };
             }
 
             function outputSongs(songs) {
