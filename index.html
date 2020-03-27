@@ -78,9 +78,24 @@
             }
 
             function shuffleAndQueue() {
-                // Obtain selected playlist ID and retrieve selected playlist's songs
+                // Obtain selected playlist ID
                 var id = document.getElementById("playlist_select").value;
-                console.log(id);
+                
+                // Retrieve songs
+                var request = new XMLHttpRequest();
+                request.open("GET", `https//api.spotify.com/v1/playlists/${id}`)
+                request.onreadystatechange = shuffleAndQueue2(request);
+                request.setRequestHeader("Authorization", `Bearer ${token}`);
+                request.send();
+            }
+
+            function shuffleAndQueue2(request) {
+                return function() {
+                    if (request.readyState == XMLHttpRequest.DONE) // If response has been received
+                        if (request.status == 200 || request.status == 304) { // If response is OK or cached
+                            console.log("Playlist data received");
+                        }
+                };
             }
         </script>
     </head>
