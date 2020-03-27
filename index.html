@@ -20,10 +20,10 @@
                     var authURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${url}&scope=${SCOPE}`;
                     document.getElementById("auth_link").href = authURL;
                 } else { // Hash fragment present; proceed onward
-                    //var queryString = hashFragment.replace("#", "?") // Convert hash fragment to query string
+                    var queryString = hashFragment[0].replace("#", "?") // Convert hash fragment to query string
                     document.getElementById("pre_auth").style.display = "none"; // Hide pre-authorization content
                     document.getElementById("post_auth").style.display = "block"; // Show main content
-                    document.getElementById("response").innerText = hashFragment; // Display query string
+                    document.getElementById("response").innerText = queryString; // Display query string
                 }
             }
         </script>
