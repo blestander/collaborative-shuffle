@@ -160,12 +160,12 @@
                 return function() {
                     if (request.readyState == XMLHttpRequest.DONE) // If response has been received
                         if (request.status == 204) { // If response is successful
-                            index++;
-
                             // Output song
                             var li = document.createElement("li");
-                            li.innerText = `${song.artist} - ${song.name}`;
+                            li.innerText = `${songs[index].artist} - ${songs[index].name}`;
                             output.appendChild(li);
+
+                            index++; // Increment index
 
                             if (index < songs.length) { // If songs remain...
                                 // ...queue up next song
