@@ -153,16 +153,20 @@
                 });
 
                 // Output the songs
+                outputSongs(songs);
+            }
+
+            function randomInt(max) {
+                return Math.floor(Math.random() * max);
+            }
+
+            function outputSongs(songs) {
                 var output = document.getElementById("shuffled_list");
                 songs.forEach(function(song) {
                     var li = document.createElement("li");
                     li.innerText = `${song.artist} - ${song.name}`;
                     output.appendChild(li);
                 });
-            }
-
-            function randomInt(max) {
-                return Math.floor(Math.random() * max);
             }
         </script>
     </head>
