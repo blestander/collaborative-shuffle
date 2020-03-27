@@ -21,9 +21,18 @@
                     document.getElementById("auth_link").href = authURL;
                 } else { // Hash fragment present; proceed onward
                     var queryString = hashFragment[0].replace("#", "?") // Convert hash fragment to query string
-                    document.getElementById("pre_auth").style.display = "none"; // Hide pre-authorization content
-                    document.getElementById("post_auth").style.display = "block"; // Show main content
-                    document.getElementById("response").innerText = queryString; // Display query string
+
+                    document.getElementById("pre_auth").style.display = "none"; // Hide pre-authorization screen
+
+                    // Convert query string into searchable form
+                    var query = new URLSearchParams(queryString);
+
+                    if (query.has("access_token")) { // Success
+                        // TODO
+                    } else { // Authorization failure
+                        document.getElementById("failed_auth").style.display = "block"; // Make failure screen visible
+                        document.getElementById("error").innerText = query.get("error")
+                    }
                 }
             }
         </script>
@@ -34,7 +43,10 @@
         </div>
         <div id="post_auth">
             <p>Authorization successful!</p>
-            <p>Response: <span id="response"></span></p>
+        </div>
+        <div id="failed_auth">
+            <p>Authorization failed!</p>
+            <p>Error: <span id="error"></span></p>
         </div>
     </body>
 </html>
