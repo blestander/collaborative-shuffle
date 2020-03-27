@@ -51,7 +51,27 @@
                     if (request.readyState == XMLHttpRequest.DONE) { // Response from Spotify received
                         if (request.status == 200 || request.status == 304) { // Response is OK or cached
                             document.getElementById("post_auth").style.display = "none"; // Hide post-auth screen
-                            document.getElementById("playlist_select").style.display = "block"; // Show playlist select screen
+                            document.getElementById("playlist_screen").style.display = "block"; // Show playlist select screen
+
+                            var response = request.response; // Full response
+                            var selector = document.getElementById("playlist_select"); // Obtain playlist dropdown.
+                            var playlists = response.items; // Obtain list of playlists from response
+                            // For each playlist, create an option in the drop down.
+                            playlists.forEach(function(playlist, index) {
+                                var option = document.createElement("option");
+                                option.value = playlist.id;
+                                option.innerText = playlist.name;
+                                selector.appendChild(option);
+                            });
+
+                            // If there are more playlists, obtain them.
+                            if (response.next != null) {
+                                var newRequest = new XMLHttpRequest();
+                                newRequest.open("GET", response.next);
+                                newRequest.onreadystatechange = displayPlaylists(newRequest);
+                                newRequest.setRequestHeader("Authorization", `Bearer ${token}`);
+                                request.send();
+                            }
                         }
                     }
                 };
@@ -65,8 +85,12 @@
         <div id="post_auth">
             <p>Authorization successful!<br />Loading playlists...</p>
         </div>
-        <div id="playlist_select">
-            <p>Playlists loaded</p>
+        <div id="playlist_screen">
+            <p>
+                <label>Select a playlist</label>
+                <select id="playlist_select" name="playlist_select">
+                </select>
+            </p>
         </div>
         <div id="failed_auth">
             <p>Authorization failed!</p>
