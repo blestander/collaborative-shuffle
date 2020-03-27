@@ -14,10 +14,11 @@
             const SCOPE = "playlist-read-collaborative playlist-read-private user-modify-playback-state";
             var token;
 
-            function Song(id, name, artist) {
+            function Song(id, name, artist, uri) {
                 this.id = id;
                 this.name = name;
                 this.artist = artist;
+                this.uri = uri;
             }
 
             function initialLoad() {
@@ -113,7 +114,8 @@
                         var id = track.id;
                         var name = track.name;
                         var artist = track.artists[0].name;
-                        songs.push(new Song(id, name, artist));
+                        var uri = track.uri;
+                        songs.push(new Song(id, name, artist, uri));
                     }
                 );
                 if (tracks.next == null) // All songs extracted
@@ -141,6 +143,9 @@
                     songs[r] = songs[i];
                     songs[i] = temp;
                 }
+
+                // Queue up songs on spotify
+                // TODO
 
                 // Output the songs
                 var output = document.getElementById("shuffled_list");
