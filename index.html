@@ -162,9 +162,12 @@
                         if (request.status == 204) { // If response is successful
                             index++;
 
-                            if (index == songs.length) // If done...
-                                outputSongs(songs); // ...output songs and be done
-                            else { // Otherwise...
+                            // Output song
+                            var li = document.createElement("li");
+                            li.innerText = `${song.artist} - ${song.name}`;
+                            output.appendChild(li);
+
+                            if (index < songs.length) { // If songs remain...
                                 // ...queue up next song
                                 var newRequest = new XMLHttpRequest();
                                 request.open("POST", `https://api.spotify.com/v1/me/player/queue?uri=${songs[index].uri}`);
@@ -174,15 +177,6 @@
                             }
                         }
                 };
-            }
-
-            function outputSongs(songs) {
-                var output = document.getElementById("shuffled_list");
-                songs.forEach(function(song) {
-                    var li = document.createElement("li");
-                    li.innerText = `${song.artist} - ${song.name}`;
-                    output.appendChild(li);
-                });
             }
         </script>
     </head>
