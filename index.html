@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Spotify Collaborative Shuffle</title>
+        <script>
+            const CLIENT_ID = "5ac550d329b64aba9bea1ee3a2dd3969";
+            const SCOPE = "playlist-read-collaborative"
+
+            function initialLoad() {
+                var url = window.location.href; // Obtains page url
+                var queryString = url.match(/\?.*$/); // Parses out query string
+                if (queryString == null) { // No query string; need to to authorization
+                    var authURL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${url}&scope=${SCOPE}`;
+                    document.getElementById("auth_link").href = authURL;
+                }
+            }
+        </script>
+    </head>
+    <body onload=initialLoad()>
+        <h1><a id="auth_link">Hello, world!</a></h1>
+    </body>
+</html>
