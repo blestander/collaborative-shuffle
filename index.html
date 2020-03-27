@@ -5,7 +5,7 @@
             div#pre_auth {
                 display:block
             }
-            div#post_auth {
+            div {
                 display:none
             }
         </style>
@@ -28,6 +28,7 @@
                     var query = new URLSearchParams(queryString);
 
                     if (query.has("access_token")) { // Success
+                        document.getElementById("post_auth").style.display = "block"; // Make post-auth screen visible
                         // TODO
                     } else { // Authorization failure
                         document.getElementById("failed_auth").style.display = "block"; // Make failure screen visible
