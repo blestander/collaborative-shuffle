@@ -51,7 +51,7 @@
                     if (request.readyState == XMLHttpRequest.DONE) { // Response from Spotify received
                         if (request.status == 200 || request.status == 304) { // Response is OK or cached
                             document.getElementById("post_auth").style.display = "none"; // Hide post-auth screen
-                            document.getElementById("playlist_select").style.display = "display"; // Show playlist select screen
+                            document.getElementById("playlist_select").style.display = "block"; // Show playlist select screen
                         }
                     }
                 };
