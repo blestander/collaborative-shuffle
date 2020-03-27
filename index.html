@@ -76,11 +76,15 @@
                     }
                 };
             }
+
+            function shuffleAndQueue() {
+                console.log("Hello, world!")
+            }
         </script>
     </head>
     <body onload=initialLoad()>
         <div id="pre_auth">
-            <p><a id="auth_link">Hello, world!</a></p>
+            <p><a id="auth_link">Authorize with Spotify</a></p>
         </div>
         <div id="post_auth">
             <p>Authorization successful!<br />Loading playlists...</p>
@@ -90,6 +94,8 @@
                 <label>Select a playlist</label>
                 <select id="playlist_select" name="playlist_select">
                 </select>
+                <br />
+                <input type="button" value="Shuffle and Queue" onclick="shuffleAndQueue()"/>
             </p>
         </div>
         <div id="failed_auth">
