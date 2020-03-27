@@ -83,7 +83,7 @@
                 
                 // Retrieve songs
                 var request = new XMLHttpRequest();
-                request.open("GET", `https//api.spotify.com/v1/playlists/${id}`)
+                request.open("GET", `https://api.spotify.com/v1/playlists/${id}`)
                 request.onreadystatechange = shuffleAndQueue2(request);
                 request.setRequestHeader("Authorization", `Bearer ${token}`);
                 request.send();
