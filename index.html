@@ -145,7 +145,12 @@
                 }
 
                 // Queue up songs on spotify
-                // TODO
+                songs.forEach(function(song){
+                    var request = new XMLHttpRequest();
+                    request.open("POST", `https://api.spotify.com/v1/me/player/queue?uri=${song.uri}`);
+                    request.setRequestHeader("Authorization", `Bearer ${token}`);
+                    request.send();
+                });
 
                 // Output the songs
                 var output = document.getElementById("shuffled_list");
@@ -164,6 +169,7 @@
     <body onload=initialLoad()>
         <div id="pre_auth">
             <p><a id="auth_link">Authorize with Spotify</a></p>
+            <p>Warning: Javascript must be supported and enabled for this site to function at all.</p>
         </div>
         <div id="post_auth">
             <p>Authorization successful!<br />Loading playlists...</p>
