@@ -11,7 +11,8 @@
         </style>
         <script>
             const CLIENT_ID = "5ac550d329b64aba9bea1ee3a2dd3969";
-            const SCOPE = "playlist-read-collaborative"
+            const SCOPE = "playlist-read-collaborative";
+            var token;
 
             function initialLoad() {
                 var url = window.location.href; // Obtains page url
@@ -27,14 +28,28 @@
                     // Convert query string into searchable form
                     var query = new URLSearchParams(queryString);
 
-                    if (query.has("access_token")) { // Success
+                    if (query.has("access_token")) { // Authorization success
                         document.getElementById("post_auth").style.display = "block"; // Make post-auth screen visible
-                        // TODO
+                        token = query.get("access_token"); // Store token for future use
+
+                        // Request list of playlists from Spotify
+                        var request = new XMLHttpRequest();
+                        request.open("GET", "https://api.spotify.com/v1/me/playlists/");
+                        request.onreadstatechange = displayPlaylists(request);
+                        request.setRequestHeader("Authorization", `Bearer ${token}`)
+                        request.send();
                     } else { // Authorization failure
                         document.getElementById("failed_auth").style.display = "block"; // Make failure screen visible
                         document.getElementById("error").innerText = query.get("error")
                     }
                 }
+            }
+        
+            function displayPlaylists(request) {
+                return function() {
+                    document.getElementById("post_auth").style.display = "none"; // Hide post-auth screen
+                    document.getElementById("playlist_select").style.display = "none"; // Show playlist select screen
+                };
             }
         </script>
     </head>
@@ -43,7 +58,10 @@
             <p><a id="auth_link">Hello, world!</a></p>
         </div>
         <div id="post_auth">
-            <p>Authorization successful!</p>
+            <p>Authorization successful!<br />Loading playlists...</p>
+        </div>
+        <div id="playlist_select">
+            <p>Playlists loaded</p>
         </div>
         <div id="failed_auth">
             <p>Authorization failed!</p>
