@@ -14,6 +14,12 @@
             const SCOPE = "playlist-read-collaborative playlist-read-private";
             var token;
 
+            function Song(id, name, artist) {
+                this.id = id;
+                this.name = name;
+                this.artist = artist;
+            }
+
             function initialLoad() {
                 var url = window.location.href; // Obtains page url
                 var hashFragment = url.match(/\#.*$/); // Parses out hash fragment
@@ -93,9 +99,24 @@
                 return function() {
                     if (request.readyState == XMLHttpRequest.DONE) // If response has been received
                         if (request.status == 200 || request.status == 304) { // If response is OK or cached
-                            console.log("Playlist data received");
+                            var response = JSON.parse(request.response);
+                            var songs = new Array();
+                            extractPlaylistSongs(songs, response.tracks);
+                            console.log(songs);
                         }
                 };
+            }
+
+            function extractPlaylistSongs(songs, tracks) {
+                tracks.items.forEach(
+                    function(item) {
+                        var track = item.track;
+                        var id = track.id;
+                        var name = track.name;
+                        var artist = track.artists[0].name;
+                        songs.push(new Song(id, name, artist));
+                    }
+                );
             }
         </script>
     </head>
