@@ -134,14 +134,21 @@
             }
 
             function shuffleAndQueue3(songs) {
-                console.log(songs);
+                // Shuffle the songs
                 for (var i = songs.length - 1; i >= 1; i--) {
                     var r = randomInt(i);
                     var temp = songs[r];
                     songs[r] = songs[i];
                     songs[i] = temp;
                 }
-                console.log(songs);
+
+                // Output the songs
+                var output = document.getElementById("shuffled_list");
+                songs.forEach(function(song) {
+                    var li = document.createElement("li");
+                    li.innerText = `${song.artist} - ${song.name}`;
+                    output.appendChild(li);
+                });
             }
 
             function randomInt(max) {
@@ -163,6 +170,12 @@
                 </select>
                 <br />
                 <input type="button" value="Shuffle and Queue" onclick="shuffleAndQueue()"/>
+                <br /><br />
+                <p>
+                    Shuffled Results:<br />
+                    <ol id="shuffled_list">
+                    </ol>
+                </p>
             </p>
         </div>
         <div id="failed_auth">
