@@ -1,7 +1,17 @@
 <html>
     <head>
         <title>Spotify Collaborative Shuffle</title>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
         <style>
+            body {
+                background-color: #1DB954;
+            }
+            div#main {
+                display: table;
+                background-color: #FFFFFF;
+                color: #000000;
+                font-family: Montserrat, san-serif;
+            }
             div#pre_auth {
                 display:block
             }
@@ -181,31 +191,33 @@
         </script>
     </head>
     <body onload=initialLoad()>
-        <div id="pre_auth">
-            <p><a id="auth_link">Authorize with Spotify</a></p>
-            <p>Warning: Javascript must be supported and enabled for this site to function at all.</p>
-        </div>
-        <div id="post_auth">
-            <p>Authorization successful!<br />Loading playlists...</p>
-        </div>
-        <div id="playlist_screen">
-            <p>
-                <label>Select a playlist</label>
-                <select id="playlist_select" name="playlist_select">
-                </select>
-                <br />
-                <input type="button" value="Shuffle and Queue" onclick="shuffleAndQueue()"/>
-                <br /><br />
+        <div id="main">
+            <div id="pre_auth">
+                <p><a id="auth_link">Authorize with Spotify</a></p>
+                <p>Warning: Javascript must be supported and enabled for this site to function at all.</p>
+            </div>
+            <div id="post_auth">
+                <p>Authorization successful!<br />Loading playlists...</p>
+            </div>
+            <div id="playlist_screen">
                 <p>
-                    Shuffled Results:
-                    <ol id="shuffled_list">
-                    </ol>
+                    <label>Select a playlist</label>
+                    <select id="playlist_select" name="playlist_select">
+                    </select>
+                    <br />
+                    <input type="button" value="Shuffle and Queue" onclick="shuffleAndQueue()"/>
+                    <br /><br />
+                    <p>
+                        Shuffled Results:
+                        <ol id="shuffled_list">
+                        </ol>
+                    </p>
                 </p>
-            </p>
-        </div>
-        <div id="failed_auth">
-            <p>Authorization failed!</p>
-            <p>Error: <span id="error"></span></p>
+            </div>
+            <div id="failed_auth">
+                <p>Authorization failed!</p>
+                <p>Error: <span id="error"></span></p>
+            </div>
         </div>
     </body>
 </html>
