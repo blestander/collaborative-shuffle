@@ -39,12 +39,13 @@
                 request.setRequestHeader("Authorization", `Bearer ${token}`)
             });
 
-            function Song(id, name, artist, uri, user_id) {
+            function Song(id, name, artist, uri, user_id, image_url) {
                 this.id = id;
                 this.name = name;
                 this.artist = artist;
                 this.uri = uri;
                 this.user_id = user_id;
+                this.image_url = image_url;
             }
 
             function initialLoad() {
@@ -149,7 +150,8 @@
                         var uri = track.uri;
                         var user = item.added_by;
                         var user_id = user.id;
-                        songs.push(new Song(id, name, artist, uri, user_id));
+                        var image_url = track.album.images[2].url; // Grabbing 64x64 image
+                        songs.push(new Song(id, name, artist, uri, user_id, image_url));
                     }
                 );
                 if (tracks.next == null) // All songs extracted
