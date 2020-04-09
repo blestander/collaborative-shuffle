@@ -165,7 +165,7 @@
 
                 // Queue up first song
                 $.post(
-                    `https://api.spotify.com/v1/me/player/queue?uri=${songs[0].uri}`,
+                    `https://api.spotify.com/v1/me/player/queue?uri=${songs[0].uri}&device_id=${$("#device_select option:selected").attr("value")}`,
                     null,
                     displaySongAndQueueNext(songs, 0)
                 );
@@ -188,7 +188,7 @@
                         if (index < songs.length) { // If songs remain...
                             // ...queue up next song
                             $.post(
-                                `https://api.spotify.com/v1/me/player/queue?uri=${songs[index].uri}`,
+                                `https://api.spotify.com/v1/me/player/queue?uri=${songs[index].uri}&device_id=${$("#device_select option:selected").attr("value")}`,
                                 null,
                                 displaySongAndQueueNext(songs, index)
                             );
