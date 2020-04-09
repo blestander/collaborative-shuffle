@@ -24,6 +24,10 @@
             div {
                 display:none
             }
+            div#song_list {
+                display: inline-block;
+                text-align: left;
+            }
         </style>
         <script>
             const CLIENT_ID = "5ac550d329b64aba9bea1ee3a2dd3969";
@@ -229,7 +233,7 @@
                     if (status == "nocontent") { // If response is successful
                         // Output song
                         var li = $("<li></li>")
-                            .text(`${songs[index].artist} - ${songs[index].name}`);
+                            .html(`${songs[index].artist}<br />${songs[index].name}`);
                         $("#shuffled_list").append(li);
 
                         index++; // Increment index
@@ -272,11 +276,11 @@
                     <br />
                     <input type="button" value="Shuffle and Queue" onclick="startShuffleAndQueue()"/>
                     <br /><br />
-                    <p>
-                        Shuffled Results:
+                    Shuffled List:
+                    <div id="song_list">
                         <ol id="shuffled_list">
                         </ol>
-                    </p>
+                    </div>
                 </p>
             </div>
             <div id="failed_auth">
