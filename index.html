@@ -35,11 +35,12 @@
                 request.setRequestHeader("Authorization", `Bearer ${token}`)
             });
 
-            function Song(id, name, artist, uri) {
+            function Song(id, name, artist, uri, user_id) {
                 this.id = id;
                 this.name = name;
                 this.artist = artist;
                 this.uri = uri;
+                this.user_id = user_id;
             }
 
             function initialLoad() {
@@ -142,7 +143,9 @@
                         var name = track.name;
                         var artist = track.artists[0].name;
                         var uri = track.uri;
-                        songs.push(new Song(id, name, artist, uri));
+                        var user = item.added_by;
+                        var user_id = user.id;
+                        songs.push(new Song(id, name, artist, uri, user_id));
                     }
                 );
                 if (tracks.next == null) // All songs extracted
@@ -155,6 +158,7 @@
             }
 
             function completeShuffleAndQueue(songs) {
+                console.log(songs);
                 // Shuffle the songs
                 switch ($("#algorithm_select option:selected").attr("value")) {
                     case "true":
