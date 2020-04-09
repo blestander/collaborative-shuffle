@@ -177,7 +177,7 @@
             
             function trueShuffle(songs) {
                 for (var i = songs.length - 1; i >= 1; i--) {
-                    var r = randomInt(i);
+                    var r = randomInt(i + 1);
                     var temp = songs[r];
                     songs[r] = songs[i];
                     songs[i] = temp;
