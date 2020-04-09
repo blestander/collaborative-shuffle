@@ -158,12 +158,13 @@
             }
 
             function completeShuffleAndQueue(songs) {
-                console.log(songs);
                 // Shuffle the songs
                 switch ($("#algorithm_select option:selected").attr("value")) {
                     case "true":
                         songs = trueShuffle(songs);
                         break;
+                    case "perfect_collab":
+                        songs = perfectCollaboratorShuffle(songs);
                 }
 
                 // Queue up first song
@@ -182,6 +183,42 @@
                     songs[i] = temp;
                 }
                 return songs;
+            }
+
+            function perfectCollaboratorShuffle(songs) {
+                // Split songs by collaborator
+                var collabs = {};
+                songs.forEach(function (song) {
+                    if (song.user_id in collabs) { // User has been seen in this loop
+                        collabs[song.user_id].push(song); // Added song to collaborator's list
+                    } else // User has not been seen and must be added to collabs
+                        collabs[song.user_id] = new Array(song);
+                });
+
+                // Switch to true shuffle if not actually collaborative
+                if (Object.keys(collabs).length == 1)
+                    return trueShuffle(songs);
+
+                // Shuffle each collaborator's songs
+                for (const collab in collabs)
+                    collabs[collab] = trueShuffle(collabs[collab]);
+
+                // Shuffle back together
+                var result = new Array();
+                while (Object.keys(collabs).length > 0) { // While someone still has songs
+                    var set = new Array(); // Set will hold one song per collaborator
+                    for (var collab in collabs) { // Grab one song per collaborator
+                        set.push(collabs[collab].pop());
+                        if (collabs[collab].length == 0) // If out of songs...
+                            delete collabs[collab] // ...drop collaborator
+                    }
+                    set = trueShuffle(set); // Shuffle our set
+                    console.log(set);
+                    result = result.concat(set); // Add set into result
+                }
+
+                // Return result
+                return result;
             }
 
             function randomInt(max) {
@@ -231,6 +268,7 @@
                     <lable for="algorithm_select">Select a shuffle algorithm:</lable>
                     <select id="algorithm_select" name="algorithm_select">
                         <option value="true">True Shuffle</option>
+                        <option value="perfect_collab">Perfect Collaborator Mix</option>
                     </select>
                     <br />
                     <input type="button" value="Shuffle and Queue" onclick="startShuffleAndQueue()"/>
