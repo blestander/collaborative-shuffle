@@ -156,11 +156,10 @@
 
             function completeShuffleAndQueue(songs) {
                 // Shuffle the songs
-                for (var i = songs.length - 1; i >= 1; i--) {
-                    var r = randomInt(i);
-                    var temp = songs[r];
-                    songs[r] = songs[i];
-                    songs[i] = temp;
+                switch ($("#algorithm_select option:selected").attr("value")) {
+                    case "true":
+                        songs = trueShuffle(songs);
+                        break;
                 }
 
                 // Queue up first song
@@ -169,6 +168,16 @@
                     null,
                     displaySongAndQueueNext(songs, 0)
                 );
+            }
+            
+            function trueShuffle(songs) {
+                for (var i = songs.length - 1; i >= 1; i--) {
+                    var r = randomInt(i);
+                    var temp = songs[r];
+                    songs[r] = songs[i];
+                    songs[i] = temp;
+                }
+                return songs;
             }
 
             function randomInt(max) {
