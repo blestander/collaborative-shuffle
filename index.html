@@ -27,7 +27,7 @@
         </style>
         <script>
             const CLIENT_ID = "5ac550d329b64aba9bea1ee3a2dd3969";
-            const SCOPE = "playlist-read-collaborative playlist-read-private user-modify-playback-state";
+            const SCOPE = "playlist-read-collaborative playlist-read-private user-modify-playback-state user-read-playback-state";
             var token;
 
             // Adding authorization header to each AJAX request
@@ -66,6 +66,13 @@
                             null,
                             displayPlaylists,
                         );
+
+                        // Request list of devices from Spotify
+                        $.get(
+                            "https://api.spotify.com/v1/me/player/devices",
+                            null,
+                            displayDevices
+                        )
                     } else { // Authorization failure
                         $("#failed_auth").show(); // Make failure screen visible
                         $("#error").text(query.get("error"));
@@ -93,6 +100,18 @@
                         $.get(response.next, null, displayPlaylists);
                     }
                 }
+            }
+
+            function displayDevices(response, status) {
+                response.devices.filter(function (device) {
+                    return !device.is_restricted;
+                }).forEach(function (device) {
+                    $("#device_select").append(
+                        $("<option></option>")
+                            .attr("value", device.id)
+                            .text(`${device.name} <${device.is_active ? "ACTIVE" : "inactive"}>`)
+                    );
+                })
             }
 
             function startShuffleAndQueue() {
