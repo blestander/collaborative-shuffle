@@ -164,7 +164,7 @@
                         var uri = track.uri;
                         var user = item.added_by;
                         var user_id = user.id;
-                        var image_url = track.album.images[2].url; // Grabbing 64x64 image
+                        var image_url = track.album.images[1].url; // Grabbing 300x300 image
                         songs.push(new Song(id, name, artist, uri, user_id, image_url));
                     }
                 );
