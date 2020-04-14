@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Spotify Collaborative Shuffle</title>
+        <meta charset="UTF-8" />
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <style>
@@ -27,6 +28,16 @@
             div#song_list {
                 display: inline-block;
                 text-align: left;
+            }
+            .song {
+                display: inline-block;
+                text-align: left;
+                width: 300px;
+                height: 64px;
+                vertical-align: middle;
+            }
+            .song-img {
+                float: right;
             }
         </style>
         <script>
@@ -234,8 +245,15 @@
                 return function(response, status, xhr) {
                     if (status == "nocontent") { // If response is successful
                         // Output song
-                        var li = $("<li></li>")
-                            .html(`${songs[index].artist}<br />${songs[index].name}`);
+                        var img = $("<img />")
+                            .attr("class", "song-img")
+                            .attr("src", songs[index].image_url);
+                        var li = $("<li></li>").append(
+                            $("<span></span>")
+                                .attr("class", "song")
+                                .html(`<br />${songs[index].artist}<br />${songs[index].name}`)
+                                .prepend(img)
+                        );
                         $("#shuffled_list").append(li);
 
                         index++; // Increment index
@@ -253,7 +271,7 @@
             }
         </script>
     </head>
-    <body onload=initialLoad()>
+    <body onload="initialLoad()">
         <div id="main">
             <div id="pre_auth">
                 <p><a id="auth_link">Authorize with Spotify</a></p>
