@@ -32,7 +32,7 @@
             .song {
                 display: inline-block;
                 text-align: right;
-                width: 316px;
+                /*width: 350px;*/
                 height: 80px;
                 vertical-align: middle;
             }
@@ -47,6 +47,7 @@
             const CLIENT_ID = "5ac550d329b64aba9bea1ee3a2dd3969";
             const SCOPE = "playlist-read-collaborative playlist-read-private user-modify-playback-state user-read-playback-state";
             var token;
+            var song_width;
 
             // Adding authorization header to each AJAX request
             $(document).ajaxSend(function(event, request, options) {
@@ -178,6 +179,12 @@
             }
 
             function completeShuffleAndQueue(songs) {
+                // Determine max song title/artist length and save proper width of songs
+                var max_song_length = songs.reduce(function(result, song) {
+                    return Math.max(result, song.name.length, song.artist.length);
+                }, 0);
+                song_width = max_song_length * 8 + 90;
+
                 // Shuffle the songs
                 switch ($("#algorithm_select option:selected").attr("value")) {
                     case "true":
@@ -254,6 +261,7 @@
                         var li = $("<li></li>").append(
                             $("<span></span>")
                                 .attr("class", "song")
+                                .css("width", song_width + "px")
                                 .html(`<p>${songs[index].artist}<br />${songs[index].name}</p>`)
                                 .prepend(img)
                         );
